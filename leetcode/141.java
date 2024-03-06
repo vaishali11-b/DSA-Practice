@@ -19,11 +19,9 @@ public class 141 {
         HashSet <ListNode> map=new HashSet<ListNode>();
 
         while(head!=null){
-            if(map.contains(head))
-            {
+            if(map.contains(head)) {
                 return true;
             }
-            
             map.add(head);
             head=head.next;
         }
