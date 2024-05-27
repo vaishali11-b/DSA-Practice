@@ -1,0 +1,10 @@
+Problem link.  https://www.hackerrank.com/challenges/java-comparator/problem
+
+// Write your Checker class here
+class Checker implements Comparator<Player>{
+    public int compare(Player a, Player b){
+        return a.score==b.score? a.name.compareTo(b.name): b.score-a.score;
+    }
+} 
+
+
