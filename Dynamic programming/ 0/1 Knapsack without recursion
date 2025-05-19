@@ -1,0 +1,26 @@
+
+
+// 0/1 Knapsack without recursion 
+
+class Solution {
+    static int knapsack(int W, int val[], int wt[]) {
+        // code here
+        int n = val.length;
+        return solveKS(W , val , wt , n);
+    }
+    
+    public static int solveKS(int W ,int val[], int wt[] , int n){
+        if(n==0 || W == 0){
+            return 0;
+        }
+        
+        if(wt[n-1] <= W){
+            return Math.max(val[n-1]+ solveKS(W-wt[n-1], val , wt , n-1),solveKS(W , val , wt , n-1));
+            
+        }else{
+            return solveKS(W , val , wt , n-1);
+        }
+        
+        
+    }
+}
