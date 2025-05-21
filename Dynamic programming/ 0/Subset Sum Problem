@@ -1,0 +1,95 @@
+//All the approaches for Subset Sum Problem 
+
+
+
+//Recursive approach(2^n)
+class Solution {
+
+    static Boolean isSubsetSum(int arr[], int sum) {
+        // code here
+        int n = arr.length;
+        return calculateSubset(arr ,n-1 ,sum);
+           
+    }
+    static boolean calculateSubset(int[] arr ,int n ,int target){
+        if(target == 0)
+            return true;
+        
+        if(n < 0)
+            return false;
+        
+        if(arr[n] > target){
+           return calculateSubset(arr ,n-1 ,target);
+        }
+        
+         return calculateSubset(arr ,n-1 ,target-arr[n]) || calculateSubset(arr ,n-1 ,target);
+    }
+}
+//Top-Down Approach (Memoization)(n*sum)
+class Solution {
+
+    static Boolean isSubsetSum(int arr[], int sum) {
+        // code here
+        int n = arr.length;
+        //taking n+1 ans sum+1 , so we could reach till nth and sum^th value
+        boolean[][] mat = new boolean[n+1][sum+1];
+        for(int i=0 ; i<=n ; i++){
+            for(int j=0 ; j<=sum ; j++){
+                mat[i][j] = false;
+            }
+        }
+        return calculateSubset(arr ,n-1 ,sum , mat);
+           
+    }
+    static boolean calculateSubset(int[] arr ,int n ,int target , boolean[][] mat){
+        if(target == 0)
+            return true;
+        
+        if(n < 0)
+            return false;
+            
+         if(mat[n][target] != false){
+            return mat[n][target];
+        }
+        
+        if(arr[n] > target){
+           return mat[n][target]= calculateSubset(arr ,n-1 ,target,mat);
+        }
+        
+         return mat[n][target] =calculateSubset(arr ,n-1 ,target-arr[n],mat) || calculateSubset(arr ,n-1 ,target,mat);
+    }
+}
+
+
+//Bottom-up Approach(Tabulation)()n*sum)
+class Solution {
+    static Boolean isSubsetSum(int arr[], int sum) {
+        // code here
+        int n = arr.length;
+        boolean[][] mat = new boolean[n+1][sum+1];
+    
+        return calculateSubset(arr ,n ,sum , mat);
+           
+    }
+    static boolean calculateSubset(int[] arr ,int n ,int target , boolean[][] mat){
+            
+        for(int i=0 ; i<=n ; i++){
+            for(int j=0 ; j<=target ; j++){
+                if(i==0)
+                    mat[i][j] = false;
+                if(j==0)
+                    mat[i][j] = true;
+        }
+        }
+         for(int i=1 ; i<=n ; i++){
+            for(int j=1 ; j<=target ; j++){
+            if(arr[i-1] <= j)
+                 mat[i][j] =mat[i-1][j-arr[i-1]] || mat[i-1][j];
+                else
+             mat[i][j]= mat[i-1][j];
+        
+            }
+         }
+         return mat[n][target];
+    }
+}
