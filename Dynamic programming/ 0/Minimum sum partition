@@ -1,0 +1,74 @@
+Link - https://www.geeksforgeeks.org/problems/minimum-sum-partition3317/1
+
+Recursion approach 
+// User function Template for Java
+
+class Solution {
+
+    public int minDifference(int arr[]) {
+        // Your code goes here
+        int n = arr.length;
+        return findDiff(arr , n , 0 , 0);
+    
+}
+ public int findDiff(int[] arr , int n , int s1 , int s2){
+     if(n==0){
+         return Math.abs(s1-s2);
+     }
+     
+     int includeS1 = findDiff(arr , n-1 , s1-arr[n-1] , s2);
+     
+     int includeS2 = findDiff(arr , n-1 , s1 , s2-arr[n-1]);
+     
+     
+     return Math.min(includeS1 , includeS2);
+     
+ }
+}
+
+
+
+
+##tabulation
+
+// User function Template for Java
+
+class Solution {
+
+    public int minDifference(int arr[]) {
+        // Your code goes here
+        //first taking the sum
+        int sum = 0;
+        int n=arr.length;
+        for(int i=0 ; i < arr.length ; i++){
+            sum += arr[i];
+        }
+//create a boolean array
+        boolean mat[][] = new boolean[n+1][sum+1];
+        
+        for(int i=0 ; i<=n ; i++){
+            mat[i][0] = true;
+        }
+        
+        for(int i=1 ; i <= n ; i++){
+            for(int j=1 ; j<=sum ; j++){
+                if(arr[i-1] <= j){
+                    mat[i][j] = mat[i-1][j] || mat[i-1][j-arr[i-1]];
+                }else{
+                    mat[i][j] = mat[i-1][j];
+                }
+            }
+        }
+//use the last row to fetch the cell with value - true, that means it is a possible subset sum , then calculate the min diff 
+        int minDiff = Integer.MAX_VALUE;
+        for(int i=sum/2 ; i>=0 ;i--){
+            if(mat[n][i]){
+            minDiff = sum - 2*i;
+            break;
+            }
+        }
+        return minDiff;
+    }
+   
+    
+}
