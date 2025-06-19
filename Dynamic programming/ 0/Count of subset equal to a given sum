@@ -1,0 +1,55 @@
+# https://www.geeksforgeeks.org/problems/perfect-sum-problem5633/1
+
+#recursive sol
+
+
+lass Solution {
+    // Function to calculate the number of subsets with a given sum
+    public int perfectSum(int[] nums, int target) {
+        // code here
+        int n = nums.length;
+        
+        return findCount( nums ,n-1 , target);
+    }
+    
+    public int findCount(int[] nums , int n , int target){
+        if (n < 0) {
+            return (target == 0) ? 1 : 0;
+        }
+        
+        if(nums[n] > target){
+            return findCount(nums , n-1 , target);
+        }
+        
+        return findCount(nums , n-1 , target) + findCount(nums , n-1 , target-nums[n]);
+    }
+}
+
+
+
+#bottom up solution
+class Solution {
+    // Function to calculate the number of subsets with a given sum
+    public int perfectSum(int[] nums, int target) {
+        // code here
+        int n = nums.length;
+        int mat[][] = new int[n+1][target+1];
+        
+        for (int i = 0; i <= n; i++) {
+            mat[i][0] = 1;
+        }
+
+       for(int i=1 ; i<= n ; i++){
+           for(int j=0 ; j<= target ; j++){
+               
+               if(nums[i-1] <= j){
+                   mat[i][j] = mat[i-1][j - nums[i-1]] + mat[i-1][j];
+               }
+              else
+                    mat[i][j] = mat[i-1][j];
+           }
+       }
+       
+        return mat[n][target];
+    }
+}
