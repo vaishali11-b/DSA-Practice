@@ -1,0 +1,62 @@
+https://www.geeksforgeeks.org/problems/coin-change2448/1
+
+
+#recursion
+
+class Solution {
+    public int count(int coins[], int sum) {
+        // code here.
+        int n = coins.length ;
+      
+        return findWays(coins , n-1 , sum);
+    }
+    public int findWays(int[] coins ,int n ,int sum){
+        
+        if(sum == 0){
+            return 1;
+        }
+        if(n < 0){
+            return 0; 
+        }
+        // only change form subset sum is that here findWays(coins , n , sum-coins[n]) - we are staying on the same index 
+        if(coins[n] <= sum){
+            return findWays(coins , n , sum-coins[n]) + findWays(coins , n-1 , sum);
+        }else{
+            return findWays(coins , n-1 , sum);
+        }
+    }
+}
+time - 2^n
+
+//bottom-up
+class Solution {
+    public int count(int coins[], int sum) {
+        // code here.
+        int n = coins.length ;
+        int[][] mat = new int[n+1][sum+1];
+        
+        for(int i=0 ; i <= n ; i++){
+            for(int j=0 ; j<=sum ; j++){
+                if(i==0){
+                    mat[i][j] = 0;
+                }
+                if(j==0){
+                    mat[i][j] = 1 ;
+                }
+            }
+        }
+        for(int i=1 ; i <= n ; i++){
+            for(int j=1 ; j<=sum ; j++){
+                if(coins[i-1] <= j){
+                    mat[i][j] = mat[i][j- coins[i-1]]+mat[i-1][j];
+                }else{
+                    mat[i][j] = mat[i-1][j];
+                }
+                
+            }
+        }
+        
+        return mat[n][sum];
+        
+    }
+}
