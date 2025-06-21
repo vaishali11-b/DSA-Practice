@@ -1,0 +1,74 @@
+//Question - Two threads a producer and a consumer , share a common fixed size buffer as a queue . the producer's job is tp generate data and put it into the buffer  , while the consumer's job is to consume the data from the buffer . 
+The problem is to make sure the producer won't prodcue the data if the buffer is full , and the comsumer won't consuem data if the buffer is empty.
+
+
+
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+import java.util.*;
+class Main {
+    public static void main(String[] args) {
+        SharedResource obj = new SharedResource(3);
+        
+        Runnable produceThread = () ->{
+            //Thread.currentThread().setName("myThread");
+            try{
+                for(int i=0 ; i <=6 ; i++){
+                    obj.produce(i);
+                }
+            }catch(Exception e){
+                
+            }
+            
+        };
+        Thread consumeThread = new Thread(() ->{
+            try{
+                for(int i=0 ; i <=6 ; i++){
+                    obj.consume();
+                }
+            }catch(Exception e){
+                
+            }
+        });
+        
+        Thread run = new Thread(produceThread);
+        run.start();
+        consumeThread.start();
+        System.out.println("Code executed by thread : "+ Thread.currentThread().getName());
+}
+    
+    
+static class SharedResource{
+    Queue<Integer> sharedBuffer;
+    int bufferSize;
+    
+    public SharedResource(int bufferSize){
+        sharedBuffer = new LinkedList<>();
+        this.bufferSize = bufferSize;
+    }
+    
+    public synchronized void produce(int item) throws Exception{
+        
+        while(sharedBuffer.size() == bufferSize){
+            System.out.println(" Buffer is full ,producer is waiting for consumer");
+            wait();
+        }
+        sharedBuffer.add(item);
+        System.out.println("Item is added to the queue"+ item);
+        notify();
+    }
+    public synchronized int consume() throws Exception{
+        while(sharedBuffer.isEmpty()){
+            System.out.println(" Buffer is empty ,consumer is waiting for producer");
+            wait();
+        }
+        int item = sharedBuffer.poll();
+        System.out.println("Item is consumed from the queue");
+        notify();
+        return item;
+    }
+}
+    
+    
+}
+    
