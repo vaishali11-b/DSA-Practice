@@ -1,0 +1,42 @@
+https://www.geeksforgeeks.org/problems/number-of-coins1824/1
+
+
+Recursion - O(2^n)
+class Solution {
+
+    public int minCoins(int coins[], int sum) {
+        // code here
+        int n = coins.length;
+        int count = Integer.MAX_VALUE;
+        
+        
+        int ans = findCount(0 , sum , coins);
+        if(ans != Integer.MAX_VALUE){
+            return ans;
+        }else
+            return -1;
+    
+    }
+    public int findCount(int i , int sum , int[] coins){
+        int n= coins.length;
+        if(sum==0){
+            return 0;
+        }
+        
+        if(sum < 0 || i>= n){
+            return Integer.MAX_VALUE;
+        }
+        
+        int take = Integer.MAX_VALUE;
+        if(coins[i] > 0){
+            take = findCount(i , sum-coins[i] , coins);
+            if(take != Integer.MAX_VALUE){
+                take++;
+            }
+        }
+        
+        int notTake = findCount(i+1 , sum , coins);
+        
+        return Math.min(take , notTake);
+    }
+}
