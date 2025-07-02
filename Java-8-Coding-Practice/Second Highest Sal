@@ -1,0 +1,33 @@
+//find second highest salary
+
+
+
+import java.util.*;
+import java.util.stream.*;
+
+class Employee {
+    String name;
+    double salary;
+
+    Employee(String name, double salary) {
+        this.name = name;
+        this.salary = salary;
+    }
+}
+class Main {
+    public static void main(String[] args) {
+        List<Employee> employees = Arrays.asList(
+            new Employee("Reema", 6000),
+            new Employee("Seema" , 5000),
+            new Employee("Kajal" , 7000),
+            new Employee("Sonam", 6000)
+            );
+        Optional<Double> secondHighest = employees.stream().map(emp->emp.salary).distinct().sorted(Comparator.reverseOrder()).skip(1).findFirst();
+        
+        if(secondHighest != null){
+            System.out.println(secondHighest);
+        }else{
+            System.out.println("null");
+        }
+    }
+}
