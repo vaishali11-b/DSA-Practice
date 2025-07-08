@@ -1,0 +1,42 @@
+##https://www.geeksforgeeks.org/problems/shortest-common-supersequence0322/1
+
+#logic is sum of S1 , s2 minus LCS will give us shortest common supersequence
+
+// User function Template for Java
+
+class Solution {
+    // Function to find length of shortest common supersequence of two strings.
+    public static int shortestCommonSupersequence(String s1, String s2) {
+        // Your code here
+        int n = s1.length();
+        int m = s2.length();
+        int[][] mat = new int[n+1][m+1];
+        for(int i=0 ; i<=n ;i++){
+            for(int j=0;j<=m ;j++){
+                mat[i][j]= -1;
+            }
+        }
+        return n+m-findLCS(s1 , s2 , n , m , mat);
+    }
+    
+    public static int findLCS(String text1 ,String text2 ,int n ,int m , int[][] mat ){
+        //if length becomes zero for any of the string return 0
+        if(n==0 || m==0){
+            return 0;
+        }
+        if(mat[n][m] != -1){
+            return mat[n][m];
+        }else{
+        //if the char at (n-1) and (m-1) matches inc the lcs count 
+        if(text1.charAt(n-1) == text2.charAt(m-1)){
+            return mat[n][m] = 1+ findLCS(text1 , text2 , n-1 , m-1, mat);
+        }else{
+            //else remove n-1 , m and n , m-1 
+            return mat[n][m]= Math.max(findLCS(text1 , text2 , n-1 , m, mat),findLCS(text1 , text2 , n , m-1, mat));
+        }
+        }
+        
+
+    }
+}
+Time Complexity O(n*m)
