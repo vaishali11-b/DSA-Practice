@@ -1,6 +1,6 @@
 ##https://www.geeksforgeeks.org/problems/shortest-common-supersequence0322/1
 
-#logic is sum of S1 , s2 minus LCS will give us shortest common supersequence
+#logic is sum of S1 , s2 minus LCS will give us shortest common supersequence , basically we are adding both the strings and deleting the LCS(common part in both the strings) so the common art occurs only once
 
 // User function Template for Java
 
