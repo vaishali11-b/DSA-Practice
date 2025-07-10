@@ -1,0 +1,55 @@
+//https://leetcode.com/problems/shortest-common-supersequence/
+//we are implementing the logic of print longest common subsequence here
+// by making minor changes to the logic of building the ans string
+// first lets make a matrix of LCS , then use if to make our ans string
+class Solution {
+    public String shortestCommonSupersequence(String str1, String str2) {
+        String ans = findString(str1 , str2);
+        return ans;
+    }
+    public String findString(String str1, String str2){
+        int n = str1.length();
+        int m = str2.length();
+
+        int[][] mat = new int[n+1][m+1];
+
+        for(int i=0 ; i<=n ; i++){
+            for(int j=0 ; j<=m ; j++){
+                if(i==0 || j==0){
+                    mat[i][j] = 0;
+                }
+                else if(str1.charAt(i-1) == str2.charAt(j-1)){
+                    mat[i][j] = 1+ mat[i-1][j-1];
+                }else{
+                    mat[i][j] = Math.max(mat[i-1][j] , mat[i][j-1]);
+                }
+            }
+        }
+        int i=n , j=m;
+        StringBuilder sb = new StringBuilder();
+        while(i>0 && j>0){
+            if( str1.charAt(i-1) == str2.charAt(j-1) ){
+                sb.append(str1.charAt(i-1));
+                i--;
+                j--;
+            }else{
+                if(mat[i-1][j] > mat[i][j-1]){
+                    sb.append(str1.charAt(i-1));
+                    i--;
+                }else{
+                    sb.append(str2.charAt(j-1));
+                    j--;
+                }
+            }
+        }
+        while(i>0){
+            sb.append(str1.charAt(i-1));
+            i--;
+        }
+        while(j>0){
+            sb.append(str2.charAt(j-1));
+            j--;
+        }
+        return sb.reverse().toString();
+    }
+}
