@@ -1,0 +1,79 @@
+/https://www.geeksforgeeks.org/problems/minimum-deletitions1648/1
+// deletions to make a string palindrome - using recursion  time complexity 2^n
+class GfG {
+
+    // Function to calculate the minimum number of 
+    // deletions to make substring s[i..j] palindrome.
+    static int minDelRecur(int i, int j, String s) {
+
+        // Base Case:
+        if (i >= j) return 0;
+
+        // If s[i] is equal to s[j]
+        if (s.charAt(i) == s.charAt(j)) {
+            return minDelRecur(i + 1, j - 1, s);
+        }
+
+        // Else we have to delete either of
+        // s[i] or s[j].
+        return 1 + Math.min(minDelRecur(i + 1, j, s), minDelRecur(i, j - 1, s));
+    }
+
+    // Function to calculate the minimum
+  
+    // Element required to delete for
+    // Making string palindrome
+    static int minDeletions(String s) {
+        int n = s.length();
+
+        return minDelRecur(0, n - 1, s);
+    }
+
+    public static void main(String[] args) {
+        String s = "aebcbda";
+        System.out.println(minDeletions(s));
+    }
+}
+
+
+# Using bottom-up approach and Longest coommon palindrome - time complexity and space  O(n^2)
+
+class Solution {
+    public static int minDeletions(String s) {
+        String rs = new StringBuilder(s).reverse().toString();
+        int ans = findLps(s, rs);
+        return s.length()-ans;
+        
+        
+    }
+        // code here
+        public static int findLps(String s , String rs){
+        int n = s.length();
+        int m= rs.length();
+        
+        int[][] mat = new int[n+1][m+1];
+        
+        for(int i=0 ; i<=n ; i++){
+            for(int j=0 ; j<=m ; j++){
+                if(i==0 || j==0){
+                    mat[i][j] = 0;      
+                    }
+            }
+        }
+        
+         for(int i=1; i<=n ; i++){
+            for(int j=1; j<=m ; j++){
+                if(s.charAt(i-1) == rs.charAt(j-1)){
+                    mat[i][j] = 1 + mat[i-1][j-1];
+            }else{
+                mat[i][j] = Math.max( mat[i-1][j] , mat[i][j-1] ) ;
+            }
+        }
+
+    }
+    return mat[n][m];
+    }
+}
+
+
+
