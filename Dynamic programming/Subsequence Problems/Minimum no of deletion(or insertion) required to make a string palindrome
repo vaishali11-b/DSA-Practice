@@ -1,5 +1,6 @@
-/https://www.geeksforgeeks.org/problems/minimum-deletitions1648/1
+//https://www.geeksforgeeks.org/problems/minimum-deletitions1648/1 && https://www.geeksforgeeks.org/problems/form-a-palindrome2544/1
 // deletions to make a string palindrome - using recursion  time complexity 2^n
+// minimum number of deletion and addition is same to make a string palindrome
 class GfG {
 
     // Function to calculate the minimum number of 
