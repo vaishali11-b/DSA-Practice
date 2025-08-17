@@ -1,0 +1,22 @@
+// Online Java Compiler
+// Use this editor to write, compile and run your Java code online
+
+class Main {
+    public static void main(String[] args) {
+        Singleton obj = Singleton.getInstance();
+        System.out.println(obj);
+    }
+}
+class Singleton{
+    //declaring instance
+    private static Singleton instance;
+    private Singleton(){
+        System.out.println("Singleton instance created");
+    }
+    public static Singleton getInstance(){
+        if(instance == null){
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
