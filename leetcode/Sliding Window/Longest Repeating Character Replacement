@@ -1,0 +1,30 @@
+//variable window length sliding window problem
+//leetcode 424 
+//https://leetcode.com/problems/longest-repeating-character-replacement/description/
+
+
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int i=0 , maxFreq = 0 , res = 0;
+        //map to track the freq of each letter in the window
+        HashMap<Character , Integer> map = new HashMap<>();
+
+        for(int j=0 ; j<s.length() ; j++){
+            char ch = s.charAt(j);
+            map.put(ch , map.getOrDefault(ch,0)+1);
+            maxFreq = Math.max(maxFreq , map.get(ch));
+
+            //means totalLen-maxFreq if>k , then reduce the window
+            while((j-i+1)-maxFreq > k){
+                char left = s.charAt(i);
+                map.put(left , map.get(left)-1);
+                i++;
+            }
+
+            res = Math.max(res , j-i+1);
+
+        }
+
+        return res;
+    }
+}
