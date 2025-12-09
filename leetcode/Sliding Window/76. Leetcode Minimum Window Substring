@@ -1,0 +1,40 @@
+//basically we are checking if the window array consists of the same letter frequency with the need freq array
+class Solution {
+    public String minWindow(String s, String t) {
+        int[] need = new int[126];
+        for(char ch : t.toCharArray()){
+            need[ch]++;
+        }
+        int[] window = new int[126];
+        int i=0 , minLen = Integer.MAX_VALUE;
+        int required = t.length() , formed = 0;
+        int j=0 , bestL = 0;
+        while(j < s.length()){
+            char c = s.charAt(j);
+            window[c]++;
+
+            if(need[c] > 0 && window[c] <= need[c]){
+                formed++;
+            }
+
+            while(formed == required){
+                if(j-i+1 < minLen){
+                    minLen = j-i+1;
+                    bestL = i;
+                }
+
+                //shrink
+                char left = s.charAt(i);
+                window[left]--;
+                i++;
+                if(need[left]>0 && window[left] < need[left]){
+                    formed--;
+                }
+            }
+            j++;
+
+        }
+        return minLen == Integer.MAX_VALUE ? "":s.substring(bestL, bestL+minLen);
+
+    }
+}
