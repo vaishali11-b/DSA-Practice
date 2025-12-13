@@ -1,0 +1,38 @@
+//Merge k sorted lists
+
+//Very simple approach
+
+class Solution {
+//step 1: find the list size and divide in two parts
+    public ListNode mergeKLists(ListNode[] lists) {
+        int n= lists.length;
+        if(n==0)
+            return null;
+        return divideAndConquer(lists , 0 , n-1);
+    }
+//Step 2 : recursively divide the list into two smaller parts until left== right and send the two lists to merge
+    public ListNode divideAndConquer(ListNode[] lists , int left , int right){
+        if(left == right){
+            return lists[left];
+        }
+        int mid = (left + right)/2;
+        ListNode l1 = divideAndConquer(lists ,left , mid);
+        ListNode l2 = divideAndConquer(lists ,mid+1 , right);
+
+        return mergeTwoLists(l1, l2);
+    }
+//Step :3 Merge two sorted lists
+    public ListNode mergeTwoLists(ListNode l1 , ListNode l2){
+        if(l1 == null) return l2;
+        if(l2 == null) return l1;
+
+        if(l1.val < l2.val){
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        }else{
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }
+        
+    }
+}
