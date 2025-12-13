@@ -1,0 +1,103 @@
+146. LRU Cache
+
+//using map<int , Node> 
+
+
+class LRUCache {
+    class Node{
+    int key;
+    int value;
+    Node prev ,next;
+    Node(int key , int value){
+        this.key = key;
+        this.value = value;
+        }
+    }
+    private final int capacity;
+    Map<Integer , Node> map;
+    private final Node head , tail;
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        map = new HashMap<>();
+        head = new Node(0,0);
+        tail = new Node(0,0);
+        head.next = tail;
+        tail.prev = head;
+    }
+    
+    public int get(int key) {
+        if(!map.containsKey(key)){
+            return -1;
+        }
+        Node node = map.get(key);
+        remove(node);
+        moveToHead(node);
+        return node.value;
+    }
+    
+    public void put(int key, int value) {
+        if(map.containsKey(key)){
+            Node node= map.get(key);
+            node.value = value;
+            remove(node);
+            moveToHead(node);
+        }else{
+            if(map.size() == capacity){
+                Node last = tail.prev;
+                remove(last);
+                map.remove(last.key);
+            }
+            Node updated = new Node(key , value);
+            map.put(key , updated);
+            moveToHead(updated);
+        }
+    }
+    public void moveToHead(Node node){
+        node.prev = head;
+        head.next.prev = node;
+        node.next = head.next;
+        head.next = node;
+    }
+    public void remove(Node node){
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+}
+
+//using linkedHashmap<int , int >
+class LRUCache {
+    int capacity;
+    Map<Integer, Integer> lhmap;
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        lhmap = new LinkedHashMap<>(capacity);
+    }
+    
+    public int get(int key) {
+        if(lhmap.containsKey(key)) {
+            int val = lhmap.get(key);
+            lhmap.remove(key);
+            lhmap.put(key, val);
+            return val;
+        }
+        return -1;
+    }
+    
+    public void put(int key, int value) {
+        if(lhmap.containsKey(key)) {
+            lhmap.remove(key);
+        }
+        else if(lhmap.size() == capacity) {
+            Integer firstKey = lhmap.keySet().iterator().next();
+            lhmap.remove(firstKey);
+        }
+        lhmap.put(key, value);
+    }
+}
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
