@@ -1,16 +1,20 @@
 class MaximumSumSubarray {
+    //using divide and conquer algorithm
     public int maxSubArray(int[] nums) {
         //using divide and conquer algo
+        //step 1. divide the array
         int l=0 , r = nums.length-1;
         if(l == r){
             return nums[l];
         }
         int mid = (l+r)/2;
+        //1.1 find max sum array in left array
         int leftMax = maxiSubArray(nums , l , mid);
-        //System.out.println("LeftMax = "+ leftMax);
+         //1.2 find max sum array in right array
         int rightMax = maxiSubArray(nums , mid+1 , r);
+        //1.3  //1.1 find max sum array in array passing centre
         int crossMax = maxCrossSubArray(nums , l, mid , r);
-
+        //return the max of all above values
         return Math.max(leftMax, Math.max(rightMax, crossMax));
     }
 
@@ -30,6 +34,7 @@ class MaximumSumSubarray {
     public int maxCrossSubArray(int[] nums ,int l,int mid ,int r){
         int maxSoFarL = Integer.MIN_VALUE , currMaxL = 0;
          int maxSoFarR = Integer.MIN_VALUE , currMaxR = 0;
+         //start from mid and expand in left and right 
         for(int i=mid ;i>=0 ;i--){
             currMaxL += nums[i];
             maxSoFarL = Math.max(maxSoFarL , currMaxL);
@@ -40,7 +45,7 @@ class MaximumSumSubarray {
             maxSoFarR = Math.max(maxSoFarR , currMaxR);
 
         }
-        //System.out.println("MaxCrossSum = "+ maxSoFarL+"+"+maxSoFarR);
+      
         return maxSoFarL+maxSoFarR;
     }
 }
