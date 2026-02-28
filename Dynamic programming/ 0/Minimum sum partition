@@ -16,9 +16,9 @@ class Solution {
          return Math.abs(s1-s2);
      }
      
-     int includeS1 = findDiff(arr , n-1 , s1-arr[n-1] , s2);
+     int includeS1 = findDiff(arr , n-1 , s1+arr[n-1] , s2);
      
-     int includeS2 = findDiff(arr , n-1 , s1 , s2-arr[n-1]);
+     int includeS2 = findDiff(arr , n-1 , s1 , s2+arr[n-1]);
      
      
      return Math.min(includeS1 , includeS2);
